@@ -1,0 +1,32 @@
+[project]
+name = "glyphgate"
+version = "0.1.0"
+description = "Glyphgate: modular narrative‑system toolkit for Theron’s Ways."
+authors = [
+    { name = "Peter M. Taylor" }
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.11"
+
+# Core runtime dependencies
+dependencies = [
+    "tomli",        # for parsing glyphgate.toml
+    "duckdb",       # future ecology + cadence data flows
+    "click",        # CLI entrypoint
+]
+
+# Optional dev/test dependencies
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+# CLI entrypoint
+[project.scripts]
+glyphgate = "cli.glyphgate_cli:main"
