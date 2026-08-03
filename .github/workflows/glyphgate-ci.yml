@@ -1,0 +1,46 @@
+name: Glyphgate CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:  # allows manual triggering
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Parse glyphgate.toml
+        run: |
+          python - << 'EOF'
+          import tomllib, pathlib
+          data = tomllib.loads(pathlib.Path("glyphgate.toml").read_text())
+          print("Modules:", data["workspace"]["modules"])
+          print("Cadence:", data["cadence"])
+          print("Narrative:", data["narrative"])
+          EOF
+
+      - name: Run module tests
+        run: |
+          uv run pytest -q
+
+      - name: CLI smoke test
+        run: |
+          uv run python cli/glyphgate_cli.py --help

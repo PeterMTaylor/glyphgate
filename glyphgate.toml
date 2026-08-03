@@ -1,0 +1,89 @@
+# ============================================================================
+# Glyphgate — Project Configuration (v0.2)
+# MIT License
+# ============================================================================
+# This file acts as the single source of truth for:
+# - module registration
+# - cadence rules
+# - narrative seeds
+# - CI workflows
+# ============================================================================
+
+[project]
+name = "glyphgate"
+version = "0.2.0"
+license = "MIT"
+python = "3.11"
+description = "Glyphgate: modular narrative‑system toolkit for Theron’s Ways."
+
+# ----------------------------------------------------------------------------
+# Workspace definition — CI uses this to discover modules
+# ----------------------------------------------------------------------------
+[workspace]
+root = "."
+modules = ["core", "ecology", "cli", "glyph-cadence-pass"]
+
+# ----------------------------------------------------------------------------
+# Module registry — CI reads these paths to run tests and builds
+# ----------------------------------------------------------------------------
+[modules.core]
+path = "core"
+tests = "tests/core"
+enabled = true
+
+[modules.ecology]
+path = "ecology"
+tests = "tests/ecology"
+enabled = true
+
+[modules.cli]
+path = "cli"
+tests = "tests/cli"
+entrypoint = "glyphgate_cli.py"
+enabled = true
+
+[modules.glyph_cadence_pass]
+path = "glyph-cadence-pass"
+tests = "tests/cadence"
+enabled = true
+
+# ----------------------------------------------------------------------------
+# Cadence engine configuration — CI validates these rules
+# ----------------------------------------------------------------------------
+[cadence]
+default_pass = "glyph_cadence_pass"
+strict = false
+log_transforms = true
+
+[cadence.validation]
+# CI uses these to ensure cadence transforms behave deterministically
+require_rhythm = true
+require_syncance = true
+require_anchor_way = false
+
+# ----------------------------------------------------------------------------
+# Narrative system seeds — CI checks these for presence + structure
+# ----------------------------------------------------------------------------
+[narrative]
+enable = true
+signals = [
+    "syncance",
+    "anchor-way",
+    "rumourdrift",
+    "five-way-assessment"
+]
+
+[narrative.validation]
+# CI ensures these seeds exist in the narrative layer
+require_all = true
+allow_experimental = true
+
+# ----------------------------------------------------------------------------
+# CI environment expectations — GitHub Actions reads these
+# ----------------------------------------------------------------------------
+[ci]
+use_uv = true
+python = "3.11"
+run_cli_smoke_tests = true
+run_module_tests = true
+run_cadence_tests = true
