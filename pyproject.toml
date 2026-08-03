@@ -16,12 +16,14 @@ dependencies = [
     "click",        # CLI entrypoint
 ]
 
-# Optional dev/test dependencies
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "pytest",
-    "pytest-cov",
+    "pytest-cov"
 ]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov"]
 
 [build-system]
 requires = ["setuptools>=61"]
