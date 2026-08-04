@@ -41,3 +41,6 @@ packages = [
     "ecology",
     "cadence_pass"
 ]
+
+[tool.setuptools.package-data]
+"" = ["glyphgate.toml"]
