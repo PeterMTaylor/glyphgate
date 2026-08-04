@@ -43,4 +43,5 @@ packages = [
 ]
 
 [tool.setuptools.package-data]
-"" = ["glyphgate.toml"]
+glyphgate = ["glyphgate.toml"]
+
