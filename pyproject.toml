@@ -32,3 +32,12 @@ build-backend = "setuptools.build_meta"
 # CLI entrypoint
 [project.scripts]
 glyphgate = "cli.glyphgate_cli:main"
+
+[tool.setuptools]
+packages = [
+    "cli",
+    "core",
+    "loader",
+    "ecology",
+    "cadence_pass"
+]
